@@ -18,12 +18,16 @@ protected:
     TicTac_Button *ttb1;
 public:
     GameTable(int inX, int inY);
+    void end_game();
 };
 
 GameTable::GameTable(int inX, int inY)
     :Window(inX, inY)
 {
-    ttb1=new TicTac_Button(0, 0, W, H);
+    ttb1=new TicTac_Button(0, 0, W, H, [&]()
+                           {
+                               if(ttb1->get_win_cond()!=0) this->shutdown();
+                           });
     add(ttb1);
 }
 
