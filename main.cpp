@@ -3,6 +3,7 @@
 #include "kp_widgets.hpp"
 #include "kp_standard_button.hpp"
 #include "kp_tictac_button.hpp"
+#include "kp_static_text.hpp"
 #include <iostream>
 #include <vector>
 
@@ -21,16 +22,6 @@ public:
     void end_game();
 };
 
-GameTable::GameTable(int inX, int inY)
-    :Window(inX, inY)
-{
-    ttb1=new TicTac_Button(0, 0, W, H, [&]()
-                           {
-                               if(ttb1->get_win_cond()!=0) this->shutdown();
-                           });
-    add(ttb1);
-}
-
 class MainMenu : public Window
 {
 protected:
@@ -39,6 +30,47 @@ protected:
 public:
     MainMenu(int inX, int inY);
 };
+
+class EndMenu : public Window
+{
+protected:
+    Static_Text *st1;
+    Standard_Button *sb1;
+public:
+    EndMenu(int inX, int inY, int wc);
+};
+
+GameTable::GameTable(int inX, int inY)
+    :Window(inX, inY)
+{
+    ttb1=new TicTac_Button(0, 0, W, H, [&]()
+                           {
+                               if(ttb1->get_win_cond()!=0)
+                               {
+                                   this->shutdown();
+                                   EndMenu em(300, 300, ttb1->get_win_cond());
+                                   em.events();
+                               }
+                           });
+    add(ttb1);
+}
+
+EndMenu::EndMenu(int inX, int inY, int wc)
+    :Window(inX, inY)
+{
+    string l;
+    if(wc==1) l="Player 1 won!";
+    if(wc==2) l="Player 2 won!";
+    if(wc==3) l="Draw!";
+    st1=new Static_Text(50, 100, 200, 30, l);
+    sb1=new Standard_Button(100, 200, 100, 30, "Ok", [&]()
+                            {
+                               this->shutdown();
+                               MainMenu mn(300, 300);
+                               mn.events();
+                            });
+    add(st1), add(sb1);
+}
 
 MainMenu::MainMenu(int inX, int inY)
     :Window(inX, inY)

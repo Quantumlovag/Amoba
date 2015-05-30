@@ -10,7 +10,7 @@ protected:
 public:
     Static_Text(float p_x, float p_y, float s_x, float s_y, std::string l);
     void print() const;
-    void handle(event ev) =0;
+    void handle(event ev) {};
     bool focusable() {return false;}
 };
 
