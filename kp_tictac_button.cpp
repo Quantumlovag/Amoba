@@ -77,6 +77,86 @@ void TicTac_Button::handle(event ev)
         }
         carry=0;
     }
+    for(size_t i=0; i<table.size(); i++)
+    {
+        int s=i;
+        for(size_t j=0; j<table[i].size()-i; j++)
+        {
+            if(!p1 && !p2)
+            {
+                if(carry==0) p1t=0, p2t=0;
+                if(carry==1) p2t=0;
+                if(carry==2) p1t=0;
+                if(table[s][j]==1) p1t++, carry=1;
+                if(table[s][j]==2) p2t++, carry=2;
+                if(table[s][j]==0) draw=false;
+            }
+            if(p1t==5) p1=true;
+            if(p2t==5) p2=true;
+            s++;
+        }
+        carry=0;
+    }
+    for(size_t i=0; i<table[0].size(); i++)
+    {
+        int s=i;
+        for(size_t j=0; j<table.size(); j++)
+        {
+            if(!p1 && !p2)
+            {
+                if(carry==0) p1t=0, p2t=0;
+                if(carry==1) p2t=0;
+                if(carry==2) p1t=0;
+                if(table[j][s]==1) p1t++, carry=1;
+                if(table[j][s]==2) p2t++, carry=2;
+                if(table[j][s]==0) draw=false;
+            }
+            if(p1t==5) p1=true;
+            if(p2t==5) p2=true;
+            s++;
+        }
+        carry=0;
+    }
+    for(size_t i=table.size()-1; i>0; i--)
+    {
+        int s=i;
+        for(size_t j=0; j<i; j++)
+        {
+            if(!p1 && !p2)
+            {
+                if(carry==0) p1t=0, p2t=0;
+                if(carry==1) p2t=0;
+                if(carry==2) p1t=0;
+                if(table[s][j]==1) p1t++, carry=1;
+                if(table[s][j]==2) p2t++, carry=2;
+                if(table[s][j]==0) draw=false;
+            }
+            if(p1t==5) p1=true;
+            if(p2t==5) p2=true;
+            s--;
+        }
+        carry=0;
+    }
+    for(size_t i=table.size()-1; i>0; i--)
+    {
+        int s=i;
+        for(size_t j=table[i].size()-1; j>i; j--)
+        {
+            if(!p1 && !p2)
+            {
+                if(carry==0) p1t=0, p2t=0;
+                if(carry==1) p2t=0;
+                if(carry==2) p1t=0;
+                if(table[j][s]==1) p1t++, carry=1;
+                if(table[j][s]==2) p2t++, carry=2;
+                if(table[j][s]==0) draw=false;
+            }
+            if(p1t==5) p1=true;
+            if(p2t==5) p2=true;
+            s++;
+        }
+        carry=0;
+    }
     if(p1) win_cond=1;
     if(p2) win_cond=2;
     if(draw) win_cond=3;
